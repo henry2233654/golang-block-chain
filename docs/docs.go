@@ -25,44 +25,19 @@ var doc = `{
     "host": "{{.Host}}",
     "basePath": "{{.BasePath}}",
     "paths": {
-        "/articles": {
+        "/blocks": {
             "get": {
-                "description": "ListBlocks articles by list parameters",
+                "description": "ListBlocks blocks by list parameters",
                 "tags": [
-                    "Article"
+                    "Block"
                 ],
-                "summary": "ListBlocks Articles",
-                "operationId": "list-articles",
+                "summary": "ListBlocks Blocks",
+                "operationId": "list-blocks",
                 "parameters": [
                     {
-                        "type": "string",
-                        "description": "User Info JWT",
-                        "name": "X-USER-JWT",
-                        "in": "header",
-                        "required": true
-                    },
-                    {
-                        "type": "boolean",
-                        "example": false,
-                        "name": "desc",
-                        "in": "query"
-                    },
-                    {
-                        "type": "string",
-                        "example": "id",
-                        "name": "order",
-                        "in": "query"
-                    },
-                    {
                         "type": "integer",
-                        "example": 1,
-                        "name": "page",
-                        "in": "query"
-                    },
-                    {
-                        "type": "integer",
-                        "example": 20,
-                        "name": "per_page",
+                        "description": "Limit",
+                        "name": "limit",
                         "in": "query"
                     }
                 ],
@@ -70,10 +45,7 @@ var doc = `{
                     "200": {
                         "description": "Success.",
                         "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/viewmodels.Article"
-                            }
+                            "$ref": "#/definitions/viewmodels.ListBlocks"
                         }
                     },
                     "500": {
@@ -83,142 +55,30 @@ var doc = `{
                         }
                     }
                 }
-            },
-            "put": {
-                "description": "Update a batch of articles",
+            }
+        },
+        "/blocks/{block_num}": {
+            "get": {
+                "description": "Get block by block number",
                 "tags": [
-                    "Article"
+                    "Block"
                 ],
-                "summary": "Update Article",
-                "operationId": "update-article",
+                "summary": "Get Block",
+                "operationId": "get-block",
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "User Info JWT",
-                        "name": "X-USER-JWT",
-                        "in": "header",
-                        "required": true
-                    },
-                    {
-                        "description": "Update parameters.",
-                        "name": "Article",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/inputmodels.UpdateArticle"
-                            }
-                        }
-                    }
-                ],
-                "responses": {
-                    "204": {
-                        "description": "Success."
-                    },
-                    "404": {
-                        "description": "Not found.",
-                        "schema": {
-                            "$ref": "#/definitions/viewmodels.Error"
-                        }
-                    },
-                    "409": {
-                        "description": "Conflict.",
-                        "schema": {
-                            "$ref": "#/definitions/viewmodels.Error"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal error.",
-                        "schema": {
-                            "$ref": "#/definitions/viewmodels.Error"
-                        }
-                    }
-                }
-            },
-            "post": {
-                "description": "Create a batch of articles",
-                "tags": [
-                    "Article"
-                ],
-                "summary": "Create Article",
-                "operationId": "create-articles",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "User Info JWT",
-                        "name": "X-USER-JWT",
-                        "in": "header",
-                        "required": true
-                    },
-                    {
-                        "description": "CreateArticles",
-                        "name": "Item",
-                        "in": "body",
-                        "required": true,
-                        "schema": {
-                            "type": "array",
-                            "items": {
-                                "$ref": "#/definitions/inputmodels.CreateArticle"
-                            }
-                        }
-                    }
-                ],
-                "responses": {
-                    "201": {
-                        "description": "Success."
-                    },
-                    "400": {
-                        "description": "Bad Request.",
-                        "schema": {
-                            "$ref": "#/definitions/viewmodels.Error"
-                        }
-                    },
-                    "409": {
-                        "description": "Conflict.",
-                        "schema": {
-                            "$ref": "#/definitions/viewmodels.Error"
-                        }
-                    },
-                    "500": {
-                        "description": "Internal error.",
-                        "schema": {
-                            "$ref": "#/definitions/viewmodels.Error"
-                        }
-                    }
-                }
-            },
-            "delete": {
-                "description": "Delete a batch of articles",
-                "tags": [
-                    "Article"
-                ],
-                "summary": "Delete Article",
-                "operationId": "delete-article",
-                "parameters": [
-                    {
-                        "type": "string",
-                        "description": "User Info JWT",
-                        "name": "X-USER-JWT",
-                        "in": "header",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "ID",
-                        "name": "id",
+                        "description": "Block Number",
+                        "name": "block_num",
                         "in": "path",
                         "required": true
                     }
                 ],
                 "responses": {
-                    "204": {
-                        "description": "Success."
-                    },
-                    "400": {
-                        "description": "Bad Request.",
+                    "200": {
+                        "description": "Success.",
                         "schema": {
-                            "$ref": "#/definitions/viewmodels.Error"
+                            "$ref": "#/definitions/viewmodels.GetSingleBlock"
                         }
                     },
                     "404": {
@@ -236,26 +96,19 @@ var doc = `{
                 }
             }
         },
-        "/articles/{id}": {
+        "/transaction/{tx_hash}": {
             "get": {
-                "description": "GetBlock article by ID",
+                "description": "GetBlock block by block number",
                 "tags": [
-                    "Article"
+                    "Transaction"
                 ],
-                "summary": "GetBlock Article",
-                "operationId": "get-article",
+                "summary": "Get Transaction",
+                "operationId": "get-transaction",
                 "parameters": [
                     {
                         "type": "string",
-                        "description": "User Info JWT",
-                        "name": "X-USER-JWT",
-                        "in": "header",
-                        "required": true
-                    },
-                    {
-                        "type": "string",
-                        "description": "ID",
-                        "name": "id",
+                        "description": "transaction hash",
+                        "name": "tx_hash",
                         "in": "path",
                         "required": true
                     }
@@ -264,7 +117,7 @@ var doc = `{
                     "200": {
                         "description": "Success.",
                         "schema": {
-                            "$ref": "#/definitions/viewmodels.Article"
+                            "$ref": "#/definitions/viewmodels.GetTransaction"
                         }
                     },
                     "404": {
@@ -284,94 +137,12 @@ var doc = `{
         }
     },
     "definitions": {
-        "inputmodels.CreateArticle": {
+        "inputmodels.ListBlocksParam": {
             "type": "object",
             "properties": {
-                "name": {
-                    "description": "文章名稱",
-                    "type": "string"
-                },
-                "no": {
-                    "description": "文章代號(unique)",
-                    "type": "string"
-                },
-                "quick_code": {
-                    "description": "簡碼",
-                    "type": "string"
-                }
-            }
-        },
-        "inputmodels.ListParam": {
-            "type": "object",
-            "properties": {
-                "desc": {
-                    "type": "boolean",
-                    "example": false
-                },
-                "order": {
-                    "type": "string",
-                    "example": "id"
-                },
-                "page": {
-                    "type": "integer",
-                    "example": 1
-                },
-                "per_page": {
-                    "type": "integer",
-                    "example": 20
-                }
-            }
-        },
-        "inputmodels.UpdateArticle": {
-            "type": "object",
-            "required": [
-                "id"
-            ],
-            "properties": {
-                "id": {
-                    "description": "流水號",
+                "limit": {
+                    "description": "Limit",
                     "type": "integer"
-                },
-                "name": {
-                    "description": "文章名稱",
-                    "type": "string"
-                },
-                "no": {
-                    "description": "文章代號(unique)",
-                    "type": "string"
-                },
-                "quick_code": {
-                    "description": "簡碼",
-                    "type": "string"
-                }
-            }
-        },
-        "viewmodels.Article": {
-            "type": "object",
-            "properties": {
-                "created_at": {
-                    "description": "建檔日期",
-                    "type": "string"
-                },
-                "id": {
-                    "description": "流水號",
-                    "type": "integer"
-                },
-                "name": {
-                    "description": "文章名稱",
-                    "type": "string"
-                },
-                "no": {
-                    "description": "文章代號(unique)",
-                    "type": "string"
-                },
-                "quick_code": {
-                    "description": "簡碼",
-                    "type": "string"
-                },
-                "updated_at": {
-                    "description": "修改日期",
-                    "type": "string"
                 }
             }
         },
@@ -385,6 +156,103 @@ var doc = `{
                     "type": "object"
                 },
                 "message": {
+                    "type": "string"
+                }
+            }
+        },
+        "viewmodels.GetSingleBlock": {
+            "type": "object",
+            "properties": {
+                "block_hash": {
+                    "type": "string"
+                },
+                "block_num": {
+                    "type": "integer"
+                },
+                "block_time": {
+                    "type": "string"
+                },
+                "parent_hash": {
+                    "type": "string"
+                },
+                "transactions": {
+                    "type": "array",
+                    "items": {
+                        "type": "string"
+                    }
+                }
+            }
+        },
+        "viewmodels.GetTransaction": {
+            "type": "object",
+            "properties": {
+                "block_hash": {
+                    "type": "string"
+                },
+                "data": {
+                    "type": "string"
+                },
+                "from": {
+                    "type": "string"
+                },
+                "logs": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/viewmodels.TransactionLog"
+                    }
+                },
+                "nonce": {
+                    "type": "integer"
+                },
+                "to": {
+                    "type": "string"
+                },
+                "tx_hash": {
+                    "type": "string"
+                },
+                "value": {
+                    "type": "string"
+                }
+            }
+        },
+        "viewmodels.ListBlockItem": {
+            "type": "object",
+            "properties": {
+                "block_hash": {
+                    "type": "string"
+                },
+                "block_num": {
+                    "type": "integer"
+                },
+                "block_time": {
+                    "type": "string"
+                },
+                "parent_hash": {
+                    "type": "string"
+                }
+            }
+        },
+        "viewmodels.ListBlocks": {
+            "type": "object",
+            "properties": {
+                "blocks": {
+                    "type": "array",
+                    "items": {
+                        "$ref": "#/definitions/viewmodels.ListBlockItem"
+                    }
+                }
+            }
+        },
+        "viewmodels.TransactionLog": {
+            "type": "object",
+            "properties": {
+                "data": {
+                    "type": "string"
+                },
+                "index": {
+                    "type": "integer"
+                },
+                "tx_hash": {
                     "type": "string"
                 }
             }

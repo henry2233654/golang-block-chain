@@ -26,7 +26,7 @@ func (ctr *Transaction) Route(e *gin.Engine) {
 // @Summary Get Transaction
 // @Description GetBlock block by block number
 // @ID get-transaction
-// @Tags Block
+// @Tags Transaction
 // @Param tx_hash path string true "transaction hash"
 // @Success 200 {object} viewmodels.GetTransaction "Success."
 // @Success 404 {object} viewmodels.Error "Not found."
