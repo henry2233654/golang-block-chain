@@ -1,0 +1,254 @@
+definitions:
+  inputmodels.CreateArticle:
+    properties:
+      name:
+        description: 文章名稱
+        type: string
+      "no":
+        description: 文章代號(unique)
+        type: string
+      quick_code:
+        description: 簡碼
+        type: string
+    type: object
+  inputmodels.ListParam:
+    properties:
+      desc:
+        example: false
+        type: boolean
+      order:
+        example: id
+        type: string
+      page:
+        example: 1
+        type: integer
+      per_page:
+        example: 20
+        type: integer
+    type: object
+  inputmodels.UpdateArticle:
+    properties:
+      id:
+        description: 流水號
+        type: integer
+      name:
+        description: 文章名稱
+        type: string
+      "no":
+        description: 文章代號(unique)
+        type: string
+      quick_code:
+        description: 簡碼
+        type: string
+    required:
+    - id
+    type: object
+  viewmodels.Article:
+    properties:
+      created_at:
+        description: 建檔日期
+        type: string
+      id:
+        description: 流水號
+        type: integer
+      name:
+        description: 文章名稱
+        type: string
+      "no":
+        description: 文章代號(unique)
+        type: string
+      quick_code:
+        description: 簡碼
+        type: string
+      updated_at:
+        description: 修改日期
+        type: string
+    type: object
+  viewmodels.Error:
+    properties:
+      code:
+        type: integer
+      error:
+        type: object
+      message:
+        type: string
+    type: object
+info:
+  contact: {}
+  license: {}
+  title: System Main Data
+paths:
+  /articles:
+    delete:
+      description: Delete a batch of articles
+      operationId: delete-article
+      parameters:
+      - description: User Info JWT
+        in: header
+        name: X-USER-JWT
+        required: true
+        type: string
+      - description: ID
+        in: path
+        name: id
+        required: true
+        type: string
+      responses:
+        "204":
+          description: Success.
+        "400":
+          description: Bad Request.
+          schema:
+            $ref: '#/definitions/viewmodels.Error'
+        "404":
+          description: Not found.
+          schema:
+            $ref: '#/definitions/viewmodels.Error'
+        "500":
+          description: Internal error.
+          schema:
+            $ref: '#/definitions/viewmodels.Error'
+      summary: Delete Article
+      tags:
+      - Article
+    get:
+      description: List articles by list parameters
+      operationId: list-articles
+      parameters:
+      - description: User Info JWT
+        in: header
+        name: X-USER-JWT
+        required: true
+        type: string
+      - example: false
+        in: query
+        name: desc
+        type: boolean
+      - example: id
+        in: query
+        name: order
+        type: string
+      - example: 1
+        in: query
+        name: page
+        type: integer
+      - example: 20
+        in: query
+        name: per_page
+        type: integer
+      responses:
+        "200":
+          description: Success.
+          schema:
+            items:
+              $ref: '#/definitions/viewmodels.Article'
+            type: array
+        "500":
+          description: Internal error.
+          schema:
+            $ref: '#/definitions/viewmodels.Error'
+      summary: List Articles
+      tags:
+      - Article
+    post:
+      description: Create a batch of articles
+      operationId: create-articles
+      parameters:
+      - description: User Info JWT
+        in: header
+        name: X-USER-JWT
+        required: true
+        type: string
+      - description: CreateArticles
+        in: body
+        name: Item
+        required: true
+        schema:
+          items:
+            $ref: '#/definitions/inputmodels.CreateArticle'
+          type: array
+      responses:
+        "201":
+          description: Success.
+        "400":
+          description: Bad Request.
+          schema:
+            $ref: '#/definitions/viewmodels.Error'
+        "409":
+          description: Conflict.
+          schema:
+            $ref: '#/definitions/viewmodels.Error'
+        "500":
+          description: Internal error.
+          schema:
+            $ref: '#/definitions/viewmodels.Error'
+      summary: Create Article
+      tags:
+      - Article
+    put:
+      description: Update a batch of articles
+      operationId: update-article
+      parameters:
+      - description: User Info JWT
+        in: header
+        name: X-USER-JWT
+        required: true
+        type: string
+      - description: Update parameters.
+        in: body
+        name: Article
+        required: true
+        schema:
+          items:
+            $ref: '#/definitions/inputmodels.UpdateArticle'
+          type: array
+      responses:
+        "204":
+          description: Success.
+        "404":
+          description: Not found.
+          schema:
+            $ref: '#/definitions/viewmodels.Error'
+        "409":
+          description: Conflict.
+          schema:
+            $ref: '#/definitions/viewmodels.Error'
+        "500":
+          description: Internal error.
+          schema:
+            $ref: '#/definitions/viewmodels.Error'
+      summary: Update Article
+      tags:
+      - Article
+  /articles/{id}:
+    get:
+      description: Get article by ID
+      operationId: get-article
+      parameters:
+      - description: User Info JWT
+        in: header
+        name: X-USER-JWT
+        required: true
+        type: string
+      - description: ID
+        in: path
+        name: id
+        required: true
+        type: string
+      responses:
+        "200":
+          description: Success.
+          schema:
+            $ref: '#/definitions/viewmodels.Article'
+        "404":
+          description: Not found.
+          schema:
+            $ref: '#/definitions/viewmodels.Error'
+        "500":
+          description: Internal error.
+          schema:
+            $ref: '#/definitions/viewmodels.Error'
+      summary: Get Article
+      tags:
+      - Article
+swagger: "2.0"
