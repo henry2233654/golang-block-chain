@@ -48,14 +48,13 @@ func (ctr *Transaction) GetTransaction(txHash string) (*cores.Response, error) {
 		}
 	}
 	respBody := viewmodels.GetTransaction{
-		TxHash:    transaction.TxHash,
-		BlockHash: transaction.BlockHash,
-		From:      transaction.From,
-		To:        transaction.To,
-		Nonce:     transaction.Nonce,
-		Data:      transaction.Data,
-		Value:     transaction.Value,
-		Logs:      logs,
+		TxHash: transaction.TxHash,
+		From:   transaction.From,
+		To:     transaction.To,
+		Nonce:  transaction.Nonce,
+		Data:   transaction.Data,
+		Value:  transaction.Value,
+		Logs:   logs,
 	}
 	return cores.NewResponse(http.StatusOK, respBody), nil
 }

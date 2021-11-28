@@ -6,6 +6,7 @@ import (
 
 type Config struct {
 	RelationalDB RelationalDB
+	BlockChain   BlockChain
 }
 
 func GetConfig() Config {
@@ -25,10 +26,14 @@ func getConfigByDefault() Config {
 		Type:     "postgres",
 		Host:     "localhost",
 		Port:     "5432",
-		User:     "user",
+		User:     "postgres",
 		Password: "p@ssw0rd",
 		Database: "golang_block_chain",
 		SslMode:  "disable",
+	}
+	config.BlockChain = BlockChain{
+		RpcUrl: "https://data-seed-prebsc-2-s3.binance.org:8545",
+		From:   "14504000",
 	}
 	// config.RelationalDB = RelationalDB{
 	// 	Type:     "sqlite3",

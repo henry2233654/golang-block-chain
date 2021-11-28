@@ -4,6 +4,7 @@
 package main
 
 import (
+	"github.com/ethereum/go-ethereum/ethclient"
 	"github.com/gin-gonic/gin"
 	"github.com/google/wire"
 	"golang-block-chain/repositories"
@@ -16,10 +17,13 @@ import (
 func InitApp(
 	db *gorm.DB,
 	webEngine *gin.Engine,
+	ethClient *ethclient.Client,
+	startFrom int64,
 ) *App {
 	wire.Build(
 		wire.Struct(new(App), "*"),
 		wire.Struct(new(Web), "*"),
+		NewSyncer,
 		wire.Value(repositories.BlockFactory(repositories.NewBlock)),
 		wire.Value(repositories.TransactionFactory(repositories.NewTransaction)),
 		wire.Struct(new(contexts.BlockFactory), "*"),

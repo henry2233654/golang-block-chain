@@ -1,30 +1,27 @@
 package migration0
 
-import (
-	"time"
-)
-
 type Block struct {
-	BlockNum     uint64 `gorm:"primaryKey"`
+	BlockNum     int64 `gorm:"primaryKey"`
 	BlockHash    string
-	BlockTime    time.Time
+	BlockTime    uint64
 	ParentHash   string
-	Transactions []*Transaction `gorm:"foreignKey:BlockHash"`
+	Transactions []*Transaction `gorm:"foreignKey:BlockNum"`
 }
 
 type Transaction struct {
-	TxHash    string `gorm:"primaryKey"`
-	BlockHash string
-	From      string
-	To        string
-	Nonce     uint64
-	Data      string //input
-	Value     string
-	Logs      []*TransactionLog `gorm:"foreignKey:TxHash"`
+	TxHash   string `gorm:"primaryKey"`
+	BlockNum int64
+	From     string
+	To       string
+	Nonce    uint64
+	Data     []byte
+	Value    string
+	Logs     []*TransactionLog `gorm:"foreignKey:TxHash"`
 }
 
 type TransactionLog struct {
+	ID     int64 `gorm:"primaryKey"`
 	TxHash string
-	Index  uint64
-	Data   string
+	Index  uint
+	Data   []byte
 }

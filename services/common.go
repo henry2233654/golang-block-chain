@@ -2,8 +2,6 @@ package services
 
 import (
 	"fmt"
-	"github.com/sjeninfo/goconvert"
-	"github.com/sjeninfo/sjmq"
 	"golang-block-chain/services/contexts"
 	"strings"
 )
@@ -34,12 +32,4 @@ func StartTransaction(c contexts.IContext, fn func() error) (err error) {
 	}
 	err = fn()
 	return
-}
-
-func SendEvent(c *goconvert.Converter, sender sjmq.ISender, event interface{}, data interface{}) error {
-	if err := c.Convert(data, &event); err != nil {
-		return err
-	}
-	err := sender.SendEvent(event)
-	return err
 }

@@ -11,9 +11,8 @@ type BlockFactory func(ctx *GormDBContext) IBlock
 
 type IBlock interface {
 	ListBlocks(limit int) (blocks []*entities.Block, err error)
-	Get(blockNum uint64) (block *entities.Block, err error)
+	Get(blockNum int64) (block *entities.Block, err error)
 	Save(block *entities.Block) (err error)
-	//Delete(block *entities.Block) (err error)
 }
 
 type Block struct {
@@ -28,14 +27,14 @@ func NewBlock(ctx *GormDBContext) IBlock {
 
 func (repo *Block) ListBlocks(limit int) ([]*entities.Block, error) {
 	var blocks []*entities.Block
-	err := repo.DB().Limit(limit).Order("block_time").Find(&blocks).Error
+	err := repo.DB().Limit(limit).Order("block_time desc").Find(&blocks).Error
 	if err != nil {
 		return nil, err
 	}
 	return blocks, nil
 }
 
-func (repo *Block) Get(blockNum uint64) (*entities.Block, error) {
+func (repo *Block) Get(blockNum int64) (*entities.Block, error) {
 	var block entities.Block
 	err := repo.DB().Preload(clause.Associations).First(&block, "block_num = ?", blockNum).Error
 	if err != nil {
@@ -54,8 +53,3 @@ func (repo *Block) Save(block *entities.Block) (err error) {
 	}
 	return
 }
-
-//func (repo *Block) Delete(block *entities.Block) (err error) {
-//	err = repo.DB().Delete(block).Error
-//	return
-//}

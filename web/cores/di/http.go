@@ -45,7 +45,7 @@ func AutoDi(fn interface{}) []gin.HandlerFunc {
 		injectKeys[i] = fmt.Sprint(i)
 		t := fnType.In(i)
 		ordinal := fmt.Sprint(i)
-		if t == reflect.TypeOf((uint)(0)) {
+		if t == reflect.TypeOf((int64)(0)) {
 			dependencies[i] = middlewares.InjectFromPathParamSeq(ordinal, pathParamCount, true)
 			pathParamCount++
 		} else if t == reflect.TypeOf((string)("")) {

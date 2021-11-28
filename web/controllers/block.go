@@ -65,7 +65,7 @@ func (ctr *Block) ListBlocks(listBlocksParam inputmodels.ListBlocksParam) (*core
 // @Success 404 {object} viewmodels.Error "Not found."
 // @Failure 500 {object} viewmodels.Error "Internal error."
 // @Router /blocks/{block_num} [get]
-func (ctr *Block) GetBlock(blockNum uint64) (*cores.Response, error) {
+func (ctr *Block) GetBlock(blockNum int64) (*cores.Response, error) {
 	ctx := ctr.CtxFactory.NewContext()
 	block, err := ctr.Service.RetrieveBlock(ctx, blockNum)
 	if err != nil {

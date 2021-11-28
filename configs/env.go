@@ -10,6 +10,8 @@ func getConfigFormEnv() Config {
 	DbType := getEnvAndPanicIfNotExist("DB_TYPE")
 	DbHost := getEnvAndPanicIfNotExist("DB_HOST")
 	DbPort := getEnvAndPanicIfNotExist("DB_PORT")
+	BlockChainUrl := getEnvAndPanicIfNotExist("BLOCK_CHAIN_URL")
+	BlockChainFrom := getEnvAndPanicIfNotExist("BLOCK_CHAIN_FROM")
 
 	config.RelationalDB = RelationalDB{
 		Type:     DbType,
@@ -19,6 +21,10 @@ func getConfigFormEnv() Config {
 		Password: "p@ssw0rd",
 		Database: "golang_block_chain",
 		SslMode:  "disable",
+	}
+	config.BlockChain = BlockChain{
+		RpcUrl: BlockChainUrl,
+		From:   BlockChainFrom,
 	}
 	return config
 }

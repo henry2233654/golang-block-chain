@@ -57,7 +57,7 @@ func InjectFromPathParamName(injectKey string, param string, isUint bool) gin.Ha
 		v = c.Param(param)
 		if isUint {
 			var err error
-			v, err = strconv.ParseUint(v.(string), 10, 32)
+			v, err = strconv.ParseInt(v.(string), 10, 64)
 			if err != nil {
 				AbortAndResponseError(c, http.StatusBadRequest, fmt.Sprintf("param [%v] is not acceptable, it only allowes type uint", v), nil)
 				return
@@ -71,12 +71,12 @@ func InjectFromPathParamSeq(injectKey string, seq int, isUint bool) gin.HandlerF
 	return func(c *gin.Context) {
 		v := c.Params[seq].Value
 		if isUint {
-			i64, err := strconv.ParseUint(v, 10, 32)
+			i64, err := strconv.ParseInt(v, 10, 64)
 			if err != nil {
-				AbortAndResponseError(c, http.StatusBadRequest, fmt.Sprintf("param [%v] is not acceptable, it only allowes type uint", v), nil)
+				AbortAndResponseError(c, http.StatusBadRequest, fmt.Sprintf("param [%v] is not acceptable, it only allowes type int64", v), nil)
 				return
 			}
-			c.Set(injectKey, uint(i64))
+			c.Set(injectKey, i64)
 		} else {
 			c.Set(injectKey, v)
 		}

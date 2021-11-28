@@ -1,11 +1,9 @@
 package entities
 
-import "time"
-
 type Block struct {
-	BlockNum     uint64 `gorm:"primaryKey"`
+	BlockNum     int64 `gorm:"primaryKey"`
 	BlockHash    string
-	BlockTime    time.Time
+	BlockTime    uint64
 	ParentHash   string
-	Transactions []*Transaction `gorm:"foreignKey:BlockHash"`
+	Transactions []*Transaction `gorm:"foreignKey:BlockNum"`
 }

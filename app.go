@@ -10,13 +10,18 @@ import (
 
 type App struct {
 	Web
-	DB        *gorm.DB
-	WebEngine *gin.Engine
+	DB          *gorm.DB
+	WebEngine   *gin.Engine
+	ChainSyncer *Syncer
 }
 
 func (a *App) Serve() error {
 	a.migrate()
 	a.Web.register(a.WebEngine)
+	go func() {
+		err := a.ChainSyncer.Start()
+		panic(err)
+	}()
 	return a.WebEngine.Run(":8081")
 }
 
